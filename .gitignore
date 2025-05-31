@@ -1,14 +1,28 @@
-# Maven build directories for all services
-target/
-api-gateway/target/
-discovery-server/target/
-authorization-service/target/
-user-service/target/
+# Maven build directories
+**/target/
 
 # Keep Maven wrapper files
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -16,16 +30,11 @@ user-service/target/
 .idea/compiler.xml
 .idea/libraries/
 *.iws
-*.iml
 *.ipr
 
 ### Eclipse ###
 .apt_generated
-.classpath
 .factorypath
-.project
-.settings
-.springBeans
 .sts4-cache
 
 ### NetBeans ###
@@ -34,7 +43,6 @@ user-service/target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
