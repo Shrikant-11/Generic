@@ -2,6 +2,11 @@ server:
   port: 9999
 
 spring:
+  application:
+    name: authorization-service
+  cloud:
+    discovery:
+      enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/demo
     username: postgres
@@ -25,7 +30,6 @@ logging:
     org:
       springframework:
         security: DEBUG
-
 
 eureka:
   client:
