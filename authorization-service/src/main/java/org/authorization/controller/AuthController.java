@@ -5,6 +5,7 @@ import org.authorization.domain.Client;
 import org.authorization.domain.CustomUserDetails;
 import org.authorization.domain.User;
 import org.authorization.dto.AuthRequestDTO;
+import org.authorization.dto.ClientRequest;
 import org.authorization.dto.OAuthRequestDTO;
 import org.authorization.dto.RefreshTokenRequestDTO;
 import org.authorization.repository.UserRepository;
@@ -18,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,6 +104,12 @@ public class AuthController {
     } else {
       return Map.of("error", "Invalid client credentials");
     }
+  }
+
+  @PostMapping("/client/register")
+  public ResponseEntity<Map<String, String>> registerClient(@Valid @RequestBody ClientRequest clientRequest) {
+    String secretApiKey = clientService.registerClient(clientRequest);
+    return ResponseEntity.ok(Map.of("message", "Client registered successfully", "secretApiKey", secretApiKey));
   }
 
 

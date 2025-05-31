@@ -1,11 +1,10 @@
 package com.example.userservice.security;
 
-import com.example.userservice.service.UserServiceImpl;
+import com.example.userservice.service.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,12 +19,11 @@ import java.util.List;
 public class JwtFilter extends OncePerRequestFilter {
 
   private final JwtUtil jwtUtil;
-  private final UserServiceImpl userDetailsService;
+  private final AuthenticationService authenticationService;
 
-  @Autowired
-  public JwtFilter(JwtUtil jwtUtil, UserServiceImpl userDetailsService) {
+  public JwtFilter(JwtUtil jwtUtil, AuthenticationService authenticationService) {
     this.jwtUtil = jwtUtil;
-    this.userDetailsService = userDetailsService;
+    this.authenticationService = authenticationService;
   }
 
   @Override
@@ -43,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 new UsernamePasswordAuthenticationToken(username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else {
-        var userDetails = userDetailsService.loadUserByUsername(username);
+        var userDetails = authenticationService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

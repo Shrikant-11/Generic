@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,17 +32,17 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
       .csrf(csrf -> csrf.disable())
-            .authorizeRequests(authz -> authz
-                    .requestMatchers("/api/auth/**", "/api/public/**",
-                            "/error",  "/v3/api-docs/**",
-                            "/swagger-ui/**",
-                            "/swagger-ui.html").permitAll() // Permit all these paths
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers("/api/client/**").hasAuthority("CLIENT")
-                    .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+      .authorizeHttpRequests(authz -> authz
+          .requestMatchers("/api/auth/**", "/api/public/**",
+              "/error", "/v3/api-docs/**",
+              "/swagger-ui/**",
+              "/swagger-ui.html").permitAll() // Permit all these paths
+          .requestMatchers("/api/admin/**").hasRole("ADMIN")
+          .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+          .requestMatchers("/api/client/**").hasAuthority("CLIENT")
+          .anyRequest().authenticated()
+      )
+      .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
