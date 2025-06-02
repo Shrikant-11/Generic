@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
         User user = User.builder()
             .username(userRequestDTO.getUsername())
             .password(passwordEncoder.encode(userRequestDTO.getPassword()))
-            .role(userRequestDTO.getRole())
+            .role(userRequestDTO.getRole().name())
             .email(userRequestDTO.getEmail())
             .mobileNumber(userRequestDTO.getMobileNumber())
             .address(userRequestDTO.getAddress())

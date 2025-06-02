@@ -1,5 +1,9 @@
 package com.example.userservice.dto;
 
+import com.example.userservice.enums.userRoles;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -12,7 +16,8 @@ public class UserRequestDTO {
     private String password;
 
     @NotNull(message = "Role is required")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private userRoles role;
 
     @NotNull(message = "Email is required")
     private String email;

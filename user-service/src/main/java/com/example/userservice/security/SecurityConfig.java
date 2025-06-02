@@ -14,9 +14,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtFilter jwtFilter;
+  private final ApiKeyFilter apiKeyFilter;
 
-  public SecurityConfig(JwtFilter jwtFilter) {
+  public SecurityConfig(JwtFilter jwtFilter, ApiKeyFilter apiKeyFilter) {
     this.jwtFilter = jwtFilter;
+    this.apiKeyFilter = apiKeyFilter;
   }
 
   @Bean
@@ -44,6 +46,7 @@ public class SecurityConfig {
           .requestMatchers("/api/client/**").hasAuthority("CLIENT")
           .anyRequest().authenticated()
       )
+      .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
       .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

@@ -1,19 +1,19 @@
 package org.authorization.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "clients")
-@Getter
-@Setter
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
     @Id
@@ -32,8 +32,9 @@ public class Client {
     @Column
     private String redirectUri;
 
-    @Column(nullable = false)
-    private String secretApiKey;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "api_key_id")
+    private ApiKey apiKey;
 
     @Column(nullable = false)
     private boolean active = true;
@@ -44,13 +45,14 @@ public class Client {
     @Column
     private LocalDateTime lastAccessedAt;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ApiUsage> apiUsages = new ArrayList<>();
-
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        lastAccessedAt = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (lastAccessedAt == null) {
+            lastAccessedAt = LocalDateTime.now();
+        }
     }
 
     public void updateLastAccessed() {
