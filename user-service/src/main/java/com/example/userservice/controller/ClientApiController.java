@@ -13,4 +13,9 @@ public class ClientApiController {
     public String getClientData(Authentication auth) {
         return "Client-only access granted to: " + auth.getName();
     }
+
+    @GetMapping("/data1")
+    public String getClientData1() {
+        return "Client-only access";
+    }
 }

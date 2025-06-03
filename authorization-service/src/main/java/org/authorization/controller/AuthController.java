@@ -1,6 +1,8 @@
 package org.authorization.controller;
 
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.authorization.domain.Client;
 import org.authorization.domain.CustomUserDetails;
 import org.authorization.domain.User;
@@ -27,6 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Authentication management APIs")
 public class AuthController {
 
   private final AuthenticationManager authenticationManager;
@@ -39,11 +42,13 @@ public class AuthController {
     this.authenticationManager = authenticationManager;
     this.jwtUtil = jwtUtil;
     this.clientService = clientService;
-      this.userRepository = userRepository;
+    this.userRepository = userRepository;
   }
 
   private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+  @Operation(summary = "Login with username and password", 
+             description = "Authenticate user and return JWT tokens")
   @PostMapping("/login")
   public ResponseEntity<Map<String, String>> login(@RequestBody AuthRequestDTO request) {
     // Retrieve the user from the database
@@ -75,6 +80,9 @@ public class AuthController {
   }
 
   // Client Token Generation (OAuth Client)
+  @Operation(summary = "Generate API key for client", 
+             description = "Generate an API key for a registered client")
+  @SecurityRequirement(name = "bearerAuth")
   @PostMapping("/client/api/key")
   public Map<String, String> generateClientToken(@RequestBody OAuthRequestDTO oauthRequest) {
     Client client = clientService.findClientByClientId(oauthRequest.getClientId());
@@ -106,6 +114,9 @@ public class AuthController {
     }
   }
 
+  
+  @Operation(summary = "Register new client", 
+             description = "Register a new client and generate API key")
   @PostMapping("/client/register")
   public ResponseEntity<Map<String, String>> registerClient(@Valid @RequestBody ClientRequest clientRequest) {
     String secretApiKey = clientService.registerClient(clientRequest);

@@ -1,15 +1,15 @@
 package com.example.userservice.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clients")
-@NoArgsConstructor
-@Getter
-@Setter
+@Builder
+@Data
 public class Client {
 
     @Id
@@ -22,13 +22,32 @@ public class Client {
     @Column(nullable = false)
     private String clientSecret;
 
-    @Column
+    @Column(nullable = false)
     private String clientName;
 
     @Column
     private String redirectUri;
 
-    @Column
-    private boolean active = true;
-}
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "api_key_id")
+    private ApiKey apiKey;
 
+    @Column(nullable = false)
+    private boolean active = true;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column
+    private LocalDateTime lastAccessedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        lastAccessedAt = LocalDateTime.now();
+    }
+
+    public void updateLastAccessed() {
+        this.lastAccessedAt = LocalDateTime.now();
+    }
+}
