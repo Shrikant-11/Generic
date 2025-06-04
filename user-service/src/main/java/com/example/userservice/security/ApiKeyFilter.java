@@ -2,6 +2,8 @@ package com.example.userservice.security;
 
 import com.example.userservice.domain.ApiKey;
 import com.example.userservice.repository.ApiKeyRepository;
+import com.example.userservice.utils.extractApiKeyUtil;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +39,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             return;
         }
 
-        String apiKey = extractApiKey(request);
+        String apiKey = extractApiKeyUtil.extractApiKey(request);
         if (apiKey != null && apiKey.contains(".")) {
             String[] parts = apiKey.split("\\.", 2);
             String prefix = parts[0];
@@ -59,18 +61,6 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private String extractApiKey(HttpServletRequest request) {
-        String apiKey = request.getHeader("X-API-KEY");
-        if (apiKey == null) {
-            // Also check Authorization header with "ApiKey " prefix
-            String authHeader = request.getHeader("Authorization");
-            if (authHeader != null && authHeader.startsWith("ApiKey ")) {
-                apiKey = authHeader.substring(7);
-            }
-        }
-        return apiKey;
     }
 
     private boolean isValidApiKey(ApiKey apiKey) {
