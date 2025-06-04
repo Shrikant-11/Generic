@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
     info = @Info(
-        title = "Authorization Service API",
+        title = "User Service API",
         version = "1.0",
-        description = "API for managing authentication and authorization",
+        description = "API for managing users related operations",
         contact = @Contact(name = "Support Team", email = "support@example.com")
     ),
     servers = {
-        @Server(url = "http://localhost:9999", description = "Local Development Server")
+        @Server(url = "http://localhost:8082", description = "Local Development Server")
     }
 )
 @SecuritySchemes({
