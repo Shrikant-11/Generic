@@ -1,5 +1,6 @@
 package com.example.userservice.service;
 
+import com.example.userservice.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,10 +25,12 @@ public class AuthenticationService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        return org.springframework.security.core.userdetails.User
+        /*return org.springframework.security.core.userdetails.User
             .withUsername(user.getUsername())
             .password(user.getPassword())
             .roles(user.getRole().toUpperCase())
-            .build();
+            .build();*/
+
+        return new CustomUserDetails(user);
     }
 } 
