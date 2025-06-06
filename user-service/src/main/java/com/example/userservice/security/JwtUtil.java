@@ -1,5 +1,6 @@
 package com.example.userservice.security;
 
+import com.example.userservice.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,10 +88,13 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
+        } catch (ExpiredJwtException ex) {
+            throw new TokenExpiredException("Token has expired");
+        } catch (JwtException | IllegalArgumentException ex) {
+            throw new RuntimeException("Invalid token"); // You can also throw a custom InvalidTokenException
         }
     }
+
 
     public String getUsername(String token) {
         return getClaims(token).getSubject();
