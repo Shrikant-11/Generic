@@ -3,6 +3,9 @@
 
 # Keep Maven wrapper files
 !.mvn/wrapper/maven-wrapper.jar
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
 
 # IDE files
 .idea/
