@@ -43,11 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else {
         UserDetails userDetails = authenticationService.loadUserByUsername(username);
-      //  if (userDetails instanceof CustomUserDetails customUserDetails) {
-       /*   String education = customUserDetails.getEducation();
-          String mobile = customUserDetails.getMobileNumber();
-          System.out.println("Education: " + education);
-        }*/
+
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
