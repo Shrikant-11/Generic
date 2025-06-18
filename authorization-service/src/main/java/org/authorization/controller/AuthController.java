@@ -129,14 +129,16 @@ public class AuthController {
   public ResponseEntity<Map<String, String>> refreshToken(@RequestBody RefreshTokenRequestDTO refreshRequest) {
     String username = jwtUtil.getUsername(refreshRequest.getRefreshToken());
 
-
     if (username != null && jwtUtil.validateToken(refreshRequest.getRefreshToken())) {
-      String newAccessToken = jwtUtil.generateTokenFromUsername(username);
 
-      // Generate a new refresh token (reusing logic from your existing method)
-      String newRefreshToken = jwtUtil.generateRefreshTokenFromUsername(username);
+      User user = userRepository.findByUsername(username);
+         // Generate JWT tokens
 
-      return ResponseEntity.ok()
+      CustomUserDetails userDetails = new CustomUserDetails(user);
+      String newAccessToken = jwtUtil.generateToken(userDetails);
+      String newRefreshToken = jwtUtil.generateRefreshToken(userDetails);
+
+       return ResponseEntity.ok()
               .header("Refresh-Token", newRefreshToken)
               .body(Map.of("access_token", newAccessToken));
     } else {
