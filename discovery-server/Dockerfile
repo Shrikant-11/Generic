@@ -10,7 +10,8 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 #COPY .mvn/ .mvn
 #COPY mvnw pom.xml ./
 COPY pom.xml ./
-RUN ./mvnw dependency:go-offline
+#RUN ./mvnw dependency:go-offline
+RUN mvn dependency:go-offline
 
 # Copy the rest of the source code
 COPY src ./src
