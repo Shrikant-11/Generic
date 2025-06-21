@@ -18,7 +18,8 @@ RUN mvn dependency:go-offline
 COPY src ./src
 
 # Build the application
-RUN ./mvnw clean package -DskipTests
+#RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTestss
 
 # ---- Run Stage ----
 FROM eclipse-temurin:21-jre as runtime
