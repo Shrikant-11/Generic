@@ -1,5 +1,6 @@
 # ---- Build Stage ----
 FROM eclipse-temurin:21-jdk as build
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Set JAVA_HOME
