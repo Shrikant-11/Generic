@@ -7,7 +7,7 @@ ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # Copy Maven wrapper and configuration first (for better layer caching)
-COPY .mvn/ .mvn
+#COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline
 
