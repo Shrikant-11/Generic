@@ -34,12 +34,6 @@ logging:
       springframework:
         security: DEBUG
 
-
-
-
-
-
-
 eureka:
   client:
     service-url:
@@ -47,5 +41,5 @@ eureka:
     health-check:
       enabled: true
   instance:
-    lease-renewal-interval-in-seconds: 30  # Heartbeat interval
+    lease-renewal-interval-in-seconds: 30 # Heartbeat interval
     lease-expiration-duration-in-seconds: 90
