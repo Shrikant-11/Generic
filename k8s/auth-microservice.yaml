@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authorization-app
+  name: authorization-service
   namespace: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: authorization-app
+      app: authorization-service
   template:
     metadata:
       labels:
-        app: authorization-app
+        app: authorization-service
     spec:
       containers:
-        - name: authorization-app
+        - name: authorization-service
           image: authorization-service:latest
           imagePullPolicy: Never
           ports:
@@ -40,7 +40,7 @@ metadata:
   namespace: dev
 spec:
   selector:
-    app: authorization-app
+    app: authorization-service
   ports:
   - port: 9999
     targetPort: 9999
