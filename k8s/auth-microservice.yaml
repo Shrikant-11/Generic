@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: authorization-service
-          image: authorization-service:latest
-          imagePullPolicy: Never
+          image: devwithsmile/generic-authorization-service
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9999
           resources:

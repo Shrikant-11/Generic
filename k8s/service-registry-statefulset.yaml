@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: service-registry
-          image: service-registry:latest
-          imagePullPolicy: Never
+          image: devwithsmile/generic-discovery-server
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8761
           envFrom:

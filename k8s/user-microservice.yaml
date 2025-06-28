@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: user-service:latest
-          imagePullPolicy: Never
+          image: devwithsmile/generic-user-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082
           resources:
