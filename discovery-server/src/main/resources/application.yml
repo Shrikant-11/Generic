@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: discovery-server
+  boot:
+    admin:
+      context-path: /admin
+      client:
+        enabled: false
+
 
 eureka:
   client:
@@ -11,3 +17,10 @@ eureka:
     fetch-registry: false
   server:
     wait-time-in-ms-when-sync-empty: 0
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
