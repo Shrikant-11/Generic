@@ -9,9 +9,11 @@ import org.authorization.domain.Client;
 import org.authorization.dto.ClientRequest;
 import org.authorization.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -28,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public String registerClient(ClientRequest clientRequest) {
         if (clientRepository.findByClientId(clientRequest.getClientId()) != null) {
-            throw new RuntimeException("Client already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Client already exists");
         }
 
         // Create API key first

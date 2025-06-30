@@ -1,41 +1,43 @@
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: postgres-db
-  namespace: dev
-spec:
-  serviceName: "postgres-db"
-  replicas: 1
-  selector:
-    matchLabels:
-      app: postgres-db
-  template:
-    metadata:
-      labels:
-        app: postgres-db
-    spec:
-      containers:
-        - name: postgres-db
-          image: postgres:15
-          ports:
-            - containerPort: 5432
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "250m"
-            limits:
-              memory: "1Gi"
-              cpu: "500m"
-          envFrom:
-            - secretRef:
-                name: postgres-secrets
-          volumeMounts:
-            - name: postgres-db-volume
-              mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: postgres-db-volume
-          emptyDir: {}
+# PostgreSQL StatefulSet is commented out since we're using external Render.com database
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: postgres-db
+#   namespace: dev
+# spec:
+#   serviceName: "postgres-db"
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: postgres-db
+#   template:
+#     metadata:
+#       labels:
+#         app: postgres-db
+#     spec:
+#       containers:
+#         - name: postgres-db
+#           image: postgres:15
+#           ports:
+#             - containerPort: 5432
+#           resources:
+#             requests:
+#               memory: "512Mi"
+#               cpu: "250m"
+#             limits:
+#               memory: "1Gi"
+#               cpu: "500m"
+#           envFrom:
+#             - secretRef:
+#                 name: postgres-secrets
+#           volumeMounts:
+#             - name: postgres-db-volume
+#               mountPath: /var/lib/postgresql/data
+#       volumes:
+#         - name: postgres-db-volume
+#           emptyDir: {}
 ---
+# PostgreSQL Service is kept for potential local development or backup purposes
 apiVersion: v1
 kind: Service
 metadata:

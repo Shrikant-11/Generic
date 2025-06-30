@@ -1,0 +1,17 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-eks-cluster
+  region: ap-south-1
+
+nodeGroups:
+  - name: ng-general
+    instanceType: t3.medium
+    desiredCapacity: 3
+    minSize: 2
+    maxSize: 5
+    volumeSize: 20
+    ssh:
+      allow: true
+      publicKeyName: eks-key #bhaiya ko bata dena ki this is used for ssh access to the cluster
