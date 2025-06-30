@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "springboot-app:latest"
+        CONTAINER_NAME = "springboot-app"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git credentialsId: 'github-creds-id', url: 'https://github.com/yourusername/your-repo-name.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    echo "Stopping old container (if exists)..."
+                    sh "docker stop $CONTAINER_NAME || true"
+                    sh "docker rm $CONTAINER_NAME || true"
+
+                    echo "Running new container..."
+                    sh "docker run -d --name $CONTAINER_NAME -p 8080:8080 $IMAGE_NAME"
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'Build failed. Old container remains running.'
+        }
+        success {
+            echo 'Deployment successful. New container is live.'
+        }
+    }
+}
