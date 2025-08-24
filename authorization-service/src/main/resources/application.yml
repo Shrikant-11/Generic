@@ -8,9 +8,9 @@ spring:
     discovery:
       enabled: true
   datasource:
-    url: jdbc:postgresql://dpg-d1gf252li9vc73aiu8vg-a.oregon-postgres.render.com/generic_ojku
-    username: admin
-    password: rqrlYCp55mbLurc76v1w69wkPAQvfafU
+    url: jdbc:postgresql://localhost:5432/auth_db
+    username: postgres
+    password: "@dmin@123"
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

@@ -2,18 +2,67 @@ server:
   port: 8080
 
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   application:
     name: api-gateway
   main:
     web-application-type: reactive
   cloud:
     gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        default-filters:
+          - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+        cors-configurations:
+          "[/**]":
+            allowedOrigins: "http://localhost:5173,http://192.168.113.23"
+            allowedMethods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 1800
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: authorization-service
+          uri: lb://AUTHORIZATION-SERVICE
+          predicates:
+            - Path=/authorization-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: discovery-server
+          uri: lb://DISCOVERY-SERVER
+          predicates:
+            - Path=/eureka/web
+          filters:
+            - SetPath=/
+        - id: discovery-server-static
+          uri: lb://DISCOVERY-SERVER
+          predicates:
+            - Path=/eureka/**
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+springdoc:
+  swagger-ui:
+    path: /docs
+    urls:
+      - name: user-service
+        url: http://localhost:8080/user-service/v3/api-docs
+      - name: authorization-service
+        url: http://localhost:8080/authorization-service/v3/api-docs
+      - name: api-gateway
+        url: http://localhost:8080/v3/api-docs

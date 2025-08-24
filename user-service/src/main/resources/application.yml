@@ -11,7 +11,7 @@ spring:
     discovery:
       enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo
+    url: jdbc:postgresql://localhost:5433/user_db
     username: postgres
     password: "@dmin@123"
     driver-class-name: org.postgresql.Driver
@@ -43,3 +43,5 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 30 # Heartbeat interval
     lease-expiration-duration-in-seconds: 90
+
+    
