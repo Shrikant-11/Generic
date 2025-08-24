@@ -14,7 +14,6 @@ import jakarta.ws.rs.BadRequestException;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 
 import java.util.Arrays;

@@ -33,12 +33,12 @@ public class SecurityConfig {
     http
       .csrf(csrf -> csrf.disable())
       .authorizeHttpRequests(authz -> authz
-          .requestMatchers("/api/auth/**", "/api/public/**",
+          .requestMatchers("/public/**",
               "/error", "/v3/api-docs/**",
               "/swagger-ui/**",
               "/swagger-ui.html").permitAll() // Permit all these paths
-          .requestMatchers("/api/admin/**").hasRole("ADMIN")
-          .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+          .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+          .requestMatchers("/api/v1/user/**").hasAnyRole("USER", "ADMIN")
           .anyRequest().authenticated()
       )
       .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

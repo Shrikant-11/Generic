@@ -35,7 +35,6 @@ public class JwtUtil {
         return generateTokenWithClaims(authentication.getName(), Map.of());
     }
 
-
     public String generateRefreshToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", userDetails.getUsername());
@@ -80,12 +79,12 @@ public class JwtUtil {
                 .compact();
     }
 
-
     public String generateRefreshTokenFromUsername(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + (expiration * 2))) // e.g., 2x access token duration
+                .setExpiration(new Date(System.currentTimeMillis() + (expiration * 2))) // e.g., 2x access token
+                                                                                        // duration
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
