@@ -3,9 +3,9 @@ package org.authorization.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("api/v1/admin")
 public class AdminController {
-  @PostMapping("/data")
+  @GetMapping
   public String adminData() {
     return "Admin-specific data";
   }

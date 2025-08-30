@@ -1,7 +1,5 @@
 package org.authorization.security;
 
-
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
 
     String token = extractToken(request);
     if (token != null && jwtUtil.validateToken(token)) {
@@ -43,8 +41,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
       if ("CLIENT".equals(role)) {
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(subject, null, authorities);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(subject, null,
+            authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } else {
         UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
@@ -55,8 +53,8 @@ public class JwtFilter extends OncePerRequestFilter {
           System.out.println("Email: " + email + " Address: " + address);
           // Use these fields as needed (e.g. logging, enrichment, etc.)
         }
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+            userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     }

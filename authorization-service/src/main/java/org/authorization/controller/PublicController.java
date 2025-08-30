@@ -3,7 +3,7 @@ package org.authorization.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/public/api/v1")
 public class PublicController {
   @GetMapping("/hello")
   public String hello() {
