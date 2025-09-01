@@ -1,16 +1,16 @@
 server:
-  port: 9999
+  port: ${SERVER_PORT:9999}
 
 spring:
   application:
-    name: authorization-service
+    name: ${SPRING_APPLICATION_NAME:authorization```rvice}
   cloud:
     discovery:
       enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/auth_db
-    username: postgres
-    password: "@dmin@123"
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/auth_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:@dmin@123}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -22,8 +22,8 @@ spring:
         format_sql: true
 
 jwt:
-  secret: Zm9vYmFyYmF6cXV4eHl6Zm9vYmFyYmF6cXV4eHl6MTIzNDU2
-  expiration: 3600000
+  secret: ${JWT_SECRET:Zm9vYmFyYmF6cXV4eHl6Zm9vYmFyYmF6cXV4eHl6MTIzNDU2}
+  expiration: ${JWT_EXPIRATION:3600000}
 
 logging:
   level:
@@ -34,7 +34,7 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE```tp://service-registry:8761/eureka/}
     health-check:
       enabled: true
   instance:

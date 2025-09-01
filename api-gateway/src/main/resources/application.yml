@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   autoconfigure:
@@ -16,7 +16,7 @@ spring:
           - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
         cors-configurations:
           "[/**]":
-            allowedOrigins: "http://localhost:5173,http://192.168.113.23"
+            allowedOrigins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://192.168.113.23}
             allowedMethods: GET, POST, PUT, PATCH, DELETE, OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
@@ -54,15 +54,15 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://service-registry:8761/eureka/}
 
 springdoc:
   swagger-ui:
     path: /docs
     urls:
       - name: user-service
-        url: http://localhost:8080/user-service/v3/api-docs
+        url: http://${USER_SERVICE_HOST:localhost}:8082/user-service/v3/api-docs
       - name: authorization-service
-        url: http://localhost:8080/authorization-service/v3/api-docs
+        url: http://${AUTH_SERVICE_HOST:localhost}:9999/authorization-service/v3/api-docs
       - name: api-gateway
-        url: http://localhost:8080/v3/api-docs
+        url: http://${API_GATEWAY_HOST:localhost}:8080/v3/api-docs
